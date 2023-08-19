@@ -1,27 +1,20 @@
-const jsonServer = require('json-server')
-const cors = require('cors')
-const path = require('path')
-  
-const server = jsonServer.create()
+const jsonServer = require("json-server");
+const server = jsonServer.create();
+const router = jsonServer.router("post.json");
+const middlewares = jsonServer.defaults();
+const cors = require("cors");
 
-const router = jsonServer.router(path.join(__dirname, 'post.json'))
-const middlewares = jsonServer.defaults()
-
-
+server.use(middlewares);
+server.use(router);
 server.use(
-    cors({
-        origin: true,
-        credentials: true,
-        preflightContinue: false,
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    })
+  cors({
+    origin: true,
+    credentials: true,
+    preflightContinue: false,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  })
 );
-server.options('*', cors());
-server.use(jsonServer.bodyParser)
-server.use(middlewares)
-server.use(router)
-const PORT = 8000
-
-server.listen(PORT, () => {
-  console.log(`JSON Server is running on http://localhost:${PORT}`)
-})
+server.options("*", cors());
+server.listen(3001, () => {
+  console.log("JSON Server is running");
+});
