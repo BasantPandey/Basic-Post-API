@@ -8,7 +8,15 @@ const router = jsonServer.router(path.join(__dirname, 'post.json'))
 const middlewares = jsonServer.defaults()
 
 
-server.use(cors())
+server.use(
+    cors({
+        origin: true,
+        credentials: true,
+        preflightContinue: false,
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    })
+);
+server.options('*', cors());
 server.use(jsonServer.bodyParser)
 server.use(middlewares)
 server.use(router)
